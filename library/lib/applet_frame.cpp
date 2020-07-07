@@ -264,13 +264,15 @@ void AppletFrame::setIcon(unsigned char* buffer, unsigned width, unsigned height
 {
     if (!this->icon)
     {
-        this->icon = new Image(buffer, width, height);
-        this->icon->setScaleType(ImageScaleType::SCALE);
-        this->icon->setParent(this);
+        Image* icon = new Image(buffer, width, height);
+        icon->setScaleType(ImageScaleType::SCALE);
+        icon->setParent(this);
+
+        this->icon = icon;
     }
-    else
+    else if (Image* icon = dynamic_cast<Image*>(this->icon))
     {
-        this->icon->setImage(buffer, width, height);
+        icon->setImage(buffer, width, height);
     }
 
     this->icon->invalidate();
@@ -298,13 +300,15 @@ void AppletFrame::setIcon(std::vector<unsigned char> &buffer)
 {
     if (!this->icon)
     {
-        this->icon = new Image(buffer);
-        this->icon->setScaleType(ImageScaleType::SCALE);
-        this->icon->setParent(this);
+        Image* icon = new Image(buffer);
+        icon->setScaleType(ImageScaleType::SCALE);
+        icon->setParent(this);
+
+        this->icon = icon;
     }
-    else
+    else if (Image* icon = dynamic_cast<Image*>(this->icon))
     {
-        this->icon->setImage(buffer);
+        icon->setImage(buffer);
     }
 
     this->icon->invalidate();
@@ -340,11 +344,6 @@ AppletFrame::~AppletFrame()
         delete this->icon;
 
     delete this->hint;
-}
-
-bool AppletFrame::onCancel()
-{
-    return this->cancelListener(this);
 }
 
 void AppletFrame::willAppear()
@@ -413,8 +412,9 @@ void AppletFrame::hide(std::function<void(void)> cb, bool animated, ViewAnimatio
 
 bool AppletFrame::onCancel()
 {
-    Application::popView();
-    return true;
+    // Application::popView();
+    // return true;
+    return this->cancelListener(this);
 }
 
 } // namespace brls

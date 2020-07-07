@@ -55,6 +55,9 @@ PopupFrame::PopupFrame(std::string title, unsigned char* imageBuffer, unsigned w
         this->contentView->setIcon(imageBuffer, width, height);
         this->contentView->invalidate();
     }
+
+    contentView->setAnimateHint(true);
+    this->contentView->registerAction("Back", Key::B, [this] { return this->onCancel(); });
 }
 
 PopupFrame::PopupFrame(std::string title, std::string imagePath, AppletFrame* contentView, std::string subTitleLeft, std::string subTitleRight)
@@ -102,6 +105,9 @@ PopupFrame::PopupFrame(std::string title, std::vector<unsigned char> &buffer, Ap
         this->contentView->setIcon(buffer);
         this->contentView->invalidate();
     }
+
+    contentView->setAnimateHint(false);
+    this->contentView->registerAction("Back", Key::B, [this] { return this->onCancel(); });
 }
 
 void PopupFrame::draw(NVGcontext* vg, int x, int y, unsigned width, unsigned height, Style* style, FrameContext* ctx)

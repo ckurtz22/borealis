@@ -79,7 +79,6 @@ class AppletFrame : public View
     void setTitle(std::string title);
     void setFooterText(std::string footerText);
     void setSubtitle(std::string left, std::string right);
-    void setIcon(std::string imagePath);
     void setIcon(unsigned char* buffer, size_t bufferSize);
     void setIcon(std::string imagePath);
     void setIcon(View* view);
@@ -87,7 +86,10 @@ class AppletFrame : public View
     void setIcon(std::vector<unsigned char> &buffer);
     virtual void setContentView(View* view);
     void setHeaderStyle(HeaderStyle headerStyle);
-    void setCancelListener(CancelListener listener);
+    void addCancelListener(CancelListener listener)
+    {
+        this->cancelListener = listener;
+    }
 
     void setAnimateHint(bool animate)
     {
